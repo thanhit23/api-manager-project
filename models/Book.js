@@ -1,17 +1,21 @@
 import mongoose from 'mongoose';
 
 const postchema = new mongoose.Schema({
-  title: {
+  name: {
     type: String,
     require: true,
     minlength: 5,
   },
-  content: {
-    type: String,
+  images: {
+    type: Array,
     require: true,
   },
-  userId: {
-    type: String,
+  price: {
+    type: Number,
+    require: true,
+  },
+  discount: {
+    type: Number,
     require: true,
   },
 }, {timestamps: true});
