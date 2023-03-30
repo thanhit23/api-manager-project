@@ -21,7 +21,9 @@ const db = mongooses.connection;
  
 db.on('error', console.error.bind(console, 'connection error:'));
 
-app.use(cors());
+app.use(cors({
+  origin: '*'
+}));
 app.use(bodyParser.json());
 app.use(express.json());
 
