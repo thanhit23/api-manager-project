@@ -1,18 +1,18 @@
 import Books from '../models/Book.js';
 import response from '../helpers/response.js';
 
-const postsController = {
+const booksController = {
   create: async(req, res) => {
     try {
       const { body: { name, price, discount, images } }  = req;
 
-      const newPosts = await new Books({
+      const newBooks = await new Books({
         name,
         price,
         images,
         discount,
       })
-      const books = await newPosts.save();
+      const books = await newBooks.save();
 
       return response.success(res, books);
     } catch (error) {
@@ -21,22 +21,22 @@ const postsController = {
   },
   delete: async(req, res) => {
     try {
-      const post = await Books.findById(req.params.id)
+      const book = await Books.findById(req.params.id)
 
-      if (!post) {
+      if (!book) {
         return response.error(res, 'Not Found', 404)
       }
 
       const result = await Books.findByIdAndDelete(req.params.id);
-      return response.success(res, result, 'Delete posts successfully');
+      return response.success(res, result, 'Delete books successfully');
     } catch (error) {
       response.serverError(res, error)
     }
   },
   update: async(req, res) => {
-    const post = await Books.findByIdAndUpdate(req.params.id, req.body)
-    const message = post ? 'Update posts successfully': 'Update posts failed';
-    return response.success(res, Boolean(post), message);
+    const book = await Books.findByIdAndUpdate(req.params.id, req.body)
+    const message = book ? 'Update books successfully': 'Update books failed';
+    return response.success(res, Boolean(book), message);
   },
   getList: async(req, res) => {
     const books = await Books.find()
@@ -44,9 +44,9 @@ const postsController = {
     return response.success(res, books);
   },
   detail: async(req, res) => {
-    const post = await Books.findById(req.params.id)
-    return response.success(res, post);
+    const book = await Books.findById(req.params.id)
+    return response.success(res, book);
   }
 }
 
-export default postsController;
+export default booksController;
