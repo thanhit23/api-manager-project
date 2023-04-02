@@ -4,11 +4,11 @@ import response from '../helpers/response.js';
 const commentController = {
   create: async(req, res) => {
     try {
-      const { body: { postId, content, parentId = null }, user: { user: { _id : userId } } } = req;
+      const { body: { bookId, content, parentId = null }, user: { user: { _id : userId } } } = req;
       const newComment = await new Comment({
         content,
         parentId,
-        postId,
+        bookId,
         userId,
       })
       const comment = await newComment.save();
@@ -48,11 +48,11 @@ const commentController = {
   },
   getListComments: async(req, res) => {
     try {
-      const { query: { postId, parentId } } = req
+      const { query: { bookId, parentId } } = req
       const match = {}
 
       if (postId) {
-        Object.assign(match, { postId, parentId: null })
+        Object.assign(match, { bookId, parentId: null })
       } else if (parentId) {
         Object.assign(match, { parentId })
       } else if (!postId && !parentId) {
