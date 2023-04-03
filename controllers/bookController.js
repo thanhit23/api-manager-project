@@ -4,13 +4,14 @@ import response from '../helpers/response.js';
 const booksController = {
   create: async(req, res) => {
     try {
-      const { body: { name, price, discount, images } }  = req;
+      const { body: { name, price, discount, images, description } }  = req;
 
       const newBooks = await new Books({
         name,
         price,
         images,
         discount,
+        description,
       })
       const books = await newBooks.save();
 
