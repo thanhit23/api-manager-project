@@ -100,7 +100,7 @@ const authController = {
         return response.error(res, 'not authorized')
       }
 
-      return response.success(res, user, '')
+      return response.success(res, user.user, '')
     } catch (error) {
       response.serverError(res, error);
     }
