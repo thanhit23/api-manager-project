@@ -4,7 +4,7 @@ import response from '../helpers/response.js';
 const commentController = {
   create: async(req, res) => {
     try {
-      const { body: { bookId, content, parentId = null }, user: { user: { _id : userId } } } = req;
+      const { body: { bookId, content, userId, parentId = null } } = req;
       const newComment = await new Comment({
         content,
         parentId,
