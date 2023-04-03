@@ -1,4 +1,5 @@
 import Books from '../models/Book.js';
+import Comment from '../models/Comment.js';
 import response from '../helpers/response.js';
 
 const booksController = {
@@ -28,7 +29,10 @@ const booksController = {
         return response.error(res, 'Not Found', 404)
       }
 
-      const result = await Books.findByIdAndDelete(req.params.id);
+      const comment = await Comment.find({ bookId: book.id })
+      if (comment) {
+        return response.error(res, 'Delete Failed', 400)
+      }
       return response.success(res, result, 'Delete books successfully');
     } catch (error) {
       response.serverError(res, error)
