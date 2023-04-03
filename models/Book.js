@@ -7,7 +7,7 @@ const bookchema = new mongoose.Schema({
     minlength: 5,
   },
   images: {
-    type: Array,
+    type: String,
     require: true,
   },
   price: {

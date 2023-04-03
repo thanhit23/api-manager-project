@@ -9,7 +9,7 @@ const commentchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-  postId: {
+  bookId: {
     type: String,
     require: true,
   },
