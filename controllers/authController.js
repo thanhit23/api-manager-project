@@ -91,7 +91,8 @@ const authController = {
   },
   me: async(req, res) => {
     try {
-      const { body: { token } } = req;
+      const { headers: { authorization } } = req;
+      const token = authorization.substring(7, req.headers.authorization.length);
 
       const user = jwt.verify(token, process.env.JWT_SECRET);
 
