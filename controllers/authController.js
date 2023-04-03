@@ -89,6 +89,21 @@ const authController = {
       response.serverError(res, error);
     }
   },
+  me: async(req, res) => {
+    try {
+      const { body: { token } } = req;
+
+      const user = jwt.verify(token, process.env.JWT_SECRET);
+
+      if (!user) {
+        return response.error(res, 'not authorized')
+      }
+
+      return response.success(res, user, '')
+    } catch (error) {
+      response.serverError(res, error);
+    }
+  },
 }
 
 export default authController;
