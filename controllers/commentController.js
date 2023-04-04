@@ -51,12 +51,12 @@ const commentController = {
       const { query: { bookId, parentId } } = req
       const match = {}
 
-      if (postId) {
+      if (bookId) {
         Object.assign(match, { bookId, parentId: null })
       } else if (parentId) {
         Object.assign(match, { parentId })
-      } else if (!postId && !parentId) {
-        Object.assign(match, { postId: null })
+      } else if (!bookId && !parentId) {
+        Object.assign(match, { })
       }
 
       const listComments = await Comment.aggregate([
