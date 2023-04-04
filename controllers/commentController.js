@@ -20,14 +20,17 @@ const commentController = {
   },
   delete: async (req, res) => {
     try {
-      const { user: { user: { _id : userId, admin } } } = req;
-      const comment = await Comment.findById(req.params.id)
-      if (userId == comment._id || admin) {
-        const result = await Comment.findByIdAndDelete(req.params.id)
-        return response.success(res, result);
+      const { params: { id } } = req;
+      const comment = await Comment.findById(id)
+      // if (userId == comment._id || admin) {
+      //   const result = await Comment.findByIdAndDelete(req.params.id)
+      //   return response.success(res, result);
+      // }
+      if (!comment) {
+        return response.error(res, 'Not Found', 404);
       }
-
-      return response.error(res, 'Unauthorized', 401);
+      return response.success(res, {});
+      // return response.error(res, 'Unauthorized', 401);
     } catch (error) {
       return response.serverError(res, error);
     }
