@@ -29,7 +29,9 @@ const commentController = {
       if (!comment) {
         return response.error(res, 'Not Found', 404);
       }
-      return response.success(res, {});
+      const result = await Comment.findByIdAndDelete(id)
+
+      return response.success(res, result);
       // return response.error(res, 'Unauthorized', 401);
     } catch (error) {
       return response.serverError(res, error);
