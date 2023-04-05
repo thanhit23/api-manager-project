@@ -22,31 +22,26 @@ const commentController = {
     try {
       const { params: { id } } = req;
       const comment = await Comment.findById(id)
-      // if (userId == comment._id || admin) {
-      //   const result = await Comment.findByIdAndDelete(req.params.id)
-      //   return response.success(res, result);
-      // }
+      
       if (!comment) {
         return response.error(res, 'Not Found', 404);
       }
       const result = await Comment.findByIdAndDelete(id)
 
       return response.success(res, result);
-      // return response.error(res, 'Unauthorized', 401);
     } catch (error) {
       return response.serverError(res, error);
     }
   },
   update: async (req, res) => {
     try {
-      const { user: { user: { _id : userId, admin } } } = req;
       const comment = await Comment.findById(req.params.id)
-      if (userId == comment._id || admin) {
-        const result = await Comment.findByIdAndUpdate(req.params.id, req.body)
-        return response.success(res, result);
+      if (!comment) {
+        return response.error(res, 'Not Found', 404);
       }
 
-      return response.error(res, 'Unauthorized', 401);
+      const result = await Comment.findByIdAndUpdate(req.params.id, req.body)
+      return response.success(res, result);
     } catch (error) {
       return response.serverError(res, error);
     }

@@ -45,9 +45,17 @@ const booksController = {
     return response.success(res, Boolean(book), message);
   },
   getList: async(req, res) => {
+    const { query: { page = 1 } } = req;
+
     const books = await Books.find()
+    .skip( +page > 0 ? ( ( +page - 1 ) * 2 ) : 0 )
+    .limit(2)
     
-    return response.success(res, books);
+    return response.success(res, {
+      data: books,
+      page: +page,
+      limit: 10,
+    });
   },
   detail: async(req, res) => {
     const book = await Books.findById(req.params.id)
