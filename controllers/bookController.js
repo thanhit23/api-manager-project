@@ -49,7 +49,7 @@ const booksController = {
 
     const books = await Books.find()
     .skip( +page > 0 ? ( ( +page - 1 ) * 2 ) : 0 )
-    .limit(2)
+    .limit(10)
     
     return response.success(res, {
       data: books,
