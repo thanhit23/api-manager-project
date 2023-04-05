@@ -24,15 +24,16 @@ const booksController = {
   delete: async(req, res) => {
     try {
       const book = await Books.findById(req.params.id)
-
       if (!book) {
         return response.error(res, 'Not Found', 404)
       }
 
       const comment = await Comment.find({ bookId: book.id })
-      if (comment) {
+      if (comment.length) {
         return response.error(res, 'Delete Failed', 400)
       }
+      const result = await Books.findByIdAndDelete(req.params.id)
+
       return response.success(res, result, 'Delete books successfully');
     } catch (error) {
       response.serverError(res, error)
