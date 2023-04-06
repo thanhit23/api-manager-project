@@ -47,14 +47,17 @@ const booksController = {
   getList: async(req, res) => {
     const { query: { page = 1 } } = req;
 
+    const total = await Books.find().count();
+
     const books = await Books.find()
-    .skip( +page > 0 ? ( ( +page - 1 ) * 2 ) : 0 )
+    .skip( +page > 1 ? 10 : 0 )
     .limit(10)
     
     return response.success(res, {
       data: books,
       page: +page,
       limit: 10,
+      totalPage: Math.ceil(total/10),
     });
   },
   detail: async(req, res) => {
