@@ -60,6 +60,14 @@ const booksController = {
       totalPage: Math.ceil(total/10),
     });
   },
+  getListByName: async(req, res) => {
+    const { params: { keyword } } = req;
+
+    const books = await Books.find({ name: { $regex: ".*" + keyword +  ".*", $options: 'i'}})
+    .limit(10)
+    
+    return response.success(res, books);
+  },
   detail: async(req, res) => {
     const book = await Books.findById(req.params.id)
     return response.success(res, book);
