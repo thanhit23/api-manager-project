@@ -8,21 +8,18 @@ const userchema = new mongoose.Schema({
     maxlength: 20,
     unique: true,
   },
-  email: {
+  account: {
     type: String,
     require: true,
-    minlength: 10,
-    maxlength: 50,
-    unique: true,
   },
   password: {
     type: String,
     require: true,
     minlength: 10,
   },
-  admin: {
-    type: Boolean,
-    default: false,
+  role: {
+    type: Number,
+    default: 1,
     minlength: 10,
   },
 }, {timestamps: true});
