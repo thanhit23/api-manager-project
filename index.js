@@ -31,7 +31,7 @@ app.use(express.json());
 app.use(express.static('resources'));
 
 app.get('/', (_, res) => res.send('API OK'))
-app.use('/v1/auth', authRoute);
+app.use('/auth', authRoute);
 app.use('/v1/employee', employeeRouter);
 app.use('/v1/user', middlewaresAuthor.verifyToken, userRoute);
 app.use(
