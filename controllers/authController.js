@@ -16,6 +16,7 @@ const authController = {
       const { body: { username, email } } = req;
       const password = await checkpassword(req);
       const userExist = await User.findOne({ email });
+      
       const { env: { JWT_ACCESS_KEY } } = process;
 
       if (userExist) return response.error(res, 'Email already exists');
@@ -25,14 +26,16 @@ const authController = {
         email,
         password,
       })
+
       const user = await newUser.save();
+
       const accessToken = jwt.sign(
         { user },
         JWT_ACCESS_KEY,
         { expiresIn: "30d" },
       )
-      
-      return response.success(res, accessToken);
+
+      return response.success(res, { accessToken });
     } catch (error) {
       response.serverError(res, error)
     }
@@ -57,18 +60,15 @@ const authController = {
     try {
       const { body: { password, email } } = req;
       const user = await User.findOne({ email });
-      if (!user) {
-        return response.error(res, 'Wrong email!')
-      };
+
+      if (!user) return response.error(res, 'Wrong email!')
       
       const validPassword = await bcrypt.compare(
         password,
         user.password
       )
 
-      if (!validPassword) {
-        return response.error(res, 'Wrong password!')
-      };
+      if (!validPassword) return response.error(res, 'Wrong password!')
 
       if (user && password) {
         const access = authController.generateAccessToken(user);
@@ -92,13 +92,12 @@ const authController = {
   me: async(req, res) => {
     try {
       const { headers: { authorization } } = req;
+
       const token = authorization.substring(7, req.headers.authorization.length);
 
       const user = jwt.verify(token, process.env.JWT_SECRET);
 
-      if (!user) {
-        return response.error(res, 'not authorized')
-      }
+      if (!user) return response.error(res, 'not authorized')
 
       return response.success(res, user.user, '')
     } catch (error) {
