@@ -6,9 +6,8 @@ import bodyParser from 'body-parser';
 import pkg from 'http-proxy-middleware';
 
 import authRoute from './routes/authen.js';
-import bookRoute from './routes/book.js';
+import employeeRouter from './routes/employee.js';
 import userRoute from './routes/user.js';
-import commentRoute from './routes/comment.js';
 import middlewaresAuthor from './middlewares/auth.js';
 
 dotenv.config();
@@ -33,8 +32,7 @@ app.use(express.static('resources'));
 
 app.get('/', (_, res) => res.send('API OK'))
 app.use('/v1/auth', authRoute);
-app.use('/v1/book', bookRoute);
-app.use('/v1/comment', commentRoute);
+app.use('/v1/employee', employeeRouter);
 app.use('/v1/user', middlewaresAuthor.verifyToken, userRoute);
 app.use(
   '/file',

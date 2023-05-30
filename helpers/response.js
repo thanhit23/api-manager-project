@@ -1,7 +1,7 @@
 const response = {
   error: (res, message = 'Failed', statusCode = 400) => {
     const error = {
-      data: null,
+      data: false,
       message,
       status: false,
     }
@@ -17,7 +17,7 @@ const response = {
   },
   serverError: (res, error) => {
     const err = {
-      data: null,
+      data: false,
       message: error.message,
       status: false,
     }
