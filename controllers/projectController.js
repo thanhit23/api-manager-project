@@ -1,32 +1,28 @@
-import Comment from '../models/Comment.js';
+import Project from '../models/Project.js';
 import response from '../helpers/response.js';
+import { filterByKeys } from '../utils/filterObject.js';
 
-const commentController = {
-  create: async(req, res) => {
+const projectController = {
+  create: async({ body }, res) => {
     try {
-      const { body: { bookId, content, userId, parentId = null } } = req;
-      const newComment = await new Comment({
-        content,
-        parentId,
-        bookId,
-        userId,
-      })
-      const comment = await newComment.save();
+      const data = filterByKeys(body, ['name', 'date_start', 'team_size']);
 
-      return response.success(res, comment)
+      const newProject = await new Project(data);
+
+      const project = await newProject.save();
+
+      return response.success(res, project)
     } catch (error) {
       return response.serverError(res, error);
     }
   },
-  delete: async (req, res) => {
+  delete: async ({ params: { id } }, res) => {
     try {
-      const { params: { id } } = req;
-      const comment = await Comment.findById(id)
+      const comment = await Project.findById(id)
       
-      if (!comment) {
-        return response.error(res, 'Not Found', 404);
-      }
-      const result = await Comment.findByIdAndDelete(id)
+      if (!comment) return response.error(res, 'Not Found', 404);
+
+      const result = await Project.findByIdAndDelete(id)
 
       return response.success(res, result);
     } catch (error) {
@@ -35,18 +31,18 @@ const commentController = {
   },
   update: async (req, res) => {
     try {
-      const comment = await Comment.findById(req.params.id)
+      const comment = await Project.findById(req.params.id)
       if (!comment) {
         return response.error(res, 'Not Found', 404);
       }
 
-      const result = await Comment.findByIdAndUpdate(req.params.id, req.body)
+      const result = await Project.findByIdAndUpdate(req.params.id, req.body)
       return response.success(res, result);
     } catch (error) {
       return response.serverError(res, error);
     }
   },
-  getListComments: async(req, res) => {
+  getListProjects: async(req, res) => {
     try {
       const { query: { bookId, parentId } } = req
       const match = {}
@@ -103,4 +99,4 @@ const commentController = {
   },
 }
 
-export default commentController;
+export default projectController;

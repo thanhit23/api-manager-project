@@ -65,22 +65,9 @@ const employeeController = {
 
   getList: async(req, res) => {
     try {
-      const { query: { page = 1 } } = req;
-
-      const total = await Employee.find().count();
-
-      const books = await Employee.find()
-      .skip( +page > 1 ? 10 : 0 )
-      .limit(10)
+      const books = await Employee.find();
       
-      return response.success(res, {
-        data: books,
-        meta: {
-          current_page: +page,
-          limit: 10,
-          total_page: Math.ceil(total/10),
-        }
-      });
+      return response.success(res, books);
     } catch (error) {
       return response.serverError(res, error);
     }
