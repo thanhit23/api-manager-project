@@ -14,13 +14,12 @@ const authController = {
   registerUser: async(req, res) => {
     try {
       const { body: { username, email } } = req;
-      const password = await checkpassword(req);
       const userExist = await User.findOne({ email });
-      
-      const { env: { JWT_ACCESS_KEY } } = process;
 
       if (userExist) return response.error(res, 'Email already exists');
       
+      const password = await checkpassword(req);
+
       const newUser = new User({
         username,
         email,
@@ -28,6 +27,8 @@ const authController = {
       })
 
       const user = await newUser.save();
+
+      const { env: { JWT_ACCESS_KEY } } = process;
 
       const accessToken = jwt.sign(
         { user },
@@ -59,6 +60,7 @@ const authController = {
   loginUser: async(req, res) => {
     try {
       const { body: { password, email } } = req;
+
       const user = await User.findOne({ email });
 
       if (!user) return response.error(res, 'Wrong email!')
@@ -93,7 +95,7 @@ const authController = {
     try {
       const { headers: { authorization } } = req;
 
-      const token = authorization.substring(7, req.headers.authorization.length);
+      const token = authorization.split(" ")[1];
 
       const user = jwt.verify(token, process.env.JWT_SECRET);
 

@@ -10,9 +10,7 @@ const middlewaresAuthor = {
     if (token) {
       const accessToken = token.split(" ")[1];
       verify(accessToken, process.env.JWT_ACCESS_KEY, (err, user) => {
-        if (err) {
-          response.error(res, 'Token is not valid', 403)
-        }
+        if (err) response.error(res, 'Token is not valid', 403);
         req.user = user;
         next();
       });
@@ -21,7 +19,7 @@ const middlewaresAuthor = {
     }
   },
   verifyAdmin: (req, res, next) => {
-    if (req.user.user.admin) {
+    if (req.user.user.role === 2) {
       next();
     } else {
       return response.error(res, 'Forbiden', 403)
