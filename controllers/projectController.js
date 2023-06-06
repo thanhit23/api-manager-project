@@ -44,53 +44,7 @@ const projectController = {
   },
   getListProjects: async(req, res) => {
     try {
-      const { query: { bookId, parentId } } = req
-      const match = {}
-
-      if (bookId) {
-        Object.assign(match, { bookId, parentId: null })
-      } else if (parentId) {
-        Object.assign(match, { parentId })
-      } else if (!bookId && !parentId) {
-        Object.assign(match, { })
-      }
-
-      const listComments = await Comment.aggregate([
-        {
-          $addFields: {
-            userId: {
-              $toObjectId: "$userId"
-            }
-          }
-        },
-        {
-          $lookup: {
-            from: "users",
-            localField: "userId",
-            foreignField: "_id",
-            as: "user"
-          }
-        },
-        { $match : match },
-      ])
-      const commentIds = listComments.map(({_id}) => _id);
-      const data = await Comment.aggregate([
-        {
-          $addFields: {
-            parentId: {
-              $toObjectId: "$parentId"
-            }
-          }
-        },
-        {$match: { parentId: { $in: commentIds } } },
-        {$group: {_id: "$parentId", totalReply:{$sum:1}}},
-      ])
-
-      const result = listComments.map( item => {
-        const { totalReply = 0 } = data.find( e => e._id.toString() == item._id.toString()) || {}
-
-        return { ...item, totalReply }
-      })
+      const result = await Project.find();
 
       return response.success(res, result)
     } catch (error) {
