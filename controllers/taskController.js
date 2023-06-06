@@ -52,7 +52,8 @@ const taskController = {
     return response.success(res, tasks);
   },
   detail: async(req, res) => {
-    const task = await Tasks.findById(req.params.id)
+    const task = await taskService.getDetail(req);
+
     return response.success(res, task);
   }
 }

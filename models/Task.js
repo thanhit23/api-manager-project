@@ -18,11 +18,11 @@ const taskSchema = new mongoose.Schema({
     require: true,
   },
   priority: {
-    type: Boolean,
+    type: Number,
     require: true,
   },
   status: {
-    type: Boolean,
+    type: Number,
     require: true,
   },
 }, {timestamps: true});

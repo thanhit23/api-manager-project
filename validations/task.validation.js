@@ -7,8 +7,8 @@ const create = {
     projectId: Joi.string().required().custom(objectId),
     description: Joi.string().required(),
     userId: Joi.string().required().custom(objectId),
-    priority: Joi.boolean().required(),
-    status: Joi.boolean().required(),
+    priority: Joi.number().required(),
+    status: Joi.number().required(),
   }).unknown(true)
 }
 
