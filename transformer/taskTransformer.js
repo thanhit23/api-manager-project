@@ -1,6 +1,6 @@
 const getTasksList = data => {
   const tasks = data.map(i => {
-    const { _id, name, description, createdAt, status, updatedAt, priority, user, project } = i;
+    const { _id, name, description, createdAt, status, updatedAt, priority, employee, project } = i;
 
     return {
       _id,
@@ -14,10 +14,10 @@ const getTasksList = data => {
         date_start: project.length ? project[0].date_start : '',
         team_size: project.length ? project[0].team_size : ''
       },
-      user: {
-        _id: user.length ? user[0]._id : '',
-        name: user.length ? user[0].name : '',
-        status: user.length ? user[0].status : '',
+      employee: {
+        _id: employee.length ? employee[0]._id : '',
+        name: employee.length ? employee[0].name : '',
+        area: employee.length ? employee[0].area : '',
       },
       createdAt,
       updatedAt,

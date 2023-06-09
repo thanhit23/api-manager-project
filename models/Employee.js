@@ -6,7 +6,7 @@ const employeeSchema = new mongoose.Schema({
     require: true,
   },
   status: {
-    type: Boolean,
+    type: String,
     require: true,
   },
   area: {

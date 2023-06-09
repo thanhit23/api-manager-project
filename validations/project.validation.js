@@ -4,6 +4,8 @@ import { objectId } from './custom.validation.js';
 const create = {
   body: Joi.object().keys({
     name: Joi.string().required(),
+    budget: Joi.number().required(),
+    spending: Joi.number().required(),
     date_start: Joi.date().required(),
     team_size: Joi.number().required(),
   }).unknown(true)
@@ -16,6 +18,12 @@ const getDetail = {
 };
 
 const deleteEmploy = {
+  params: Joi.object().keys({
+    id: Joi.string().custom(objectId),
+  })
+};
+
+const getDetailEmploy = {
   params: Joi.object().keys({
     id: Joi.string().custom(objectId),
   })
@@ -40,5 +48,6 @@ export default {
   update,
   getLists,
   getDetail,
-  deleteEmploy
+  deleteEmploy,
+  getDetailEmploy
 }

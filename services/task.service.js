@@ -2,22 +2,22 @@ import Tasks from '../models/Task.js';
 import taskTransformer from '../transformer/taskTransformer.js'
 
 const getList = async(req, res) => {
-  const { query: { userId, projectId } } = req
+  const { query: { employeeId, projectId } } = req
   const match = {}
 
-  if (userId) {
+  if (employeeId) {
     Object.assign(match, { userId, projectId })
   } else if (projectId) {
     Object.assign(match, { projectId })
-  } else if (!userId && !projectId) {
+  } else if (!employeeId && !projectId) {
     Object.assign(match, { })
   }
 
   const data = await Tasks.aggregate([
     {
       $addFields: {
-        userId: {
-          $toObjectId: "$userId"
+        employeeId: {
+          $toObjectId: "$employeeId"
         },
         projectId: {
           $toObjectId: "$projectId"
@@ -27,9 +27,9 @@ const getList = async(req, res) => {
     {
       $lookup: {
         from: "employee",
-        localField: "userId",
+        localField: "employeeId",
         foreignField: "_id",
-        as: "user"
+        as: "employee"
       }
     },
     {
@@ -47,22 +47,22 @@ const getList = async(req, res) => {
 }
 
 const getDetail = async(req, res) => {
-  const { query: { userId, projectId } } = req
+  const { query: { employeeId, projectId } } = req
   const match = {}
 
-  if (userId) {
-    Object.assign(match, { userId, projectId })
+  if (employeeId) {
+    Object.assign(match, { employeeId, projectId })
   } else if (projectId) {
     Object.assign(match, { projectId })
-  } else if (!userId && !projectId) {
+  } else if (!employeeId && !projectId) {
     Object.assign(match, { })
   }
 
   const data = await Tasks.aggregate([
     {
       $addFields: {
-        userId: {
-          $toObjectId: "$userId"
+        employeeId: {
+          $toObjectId: "$employeeId"
         },
         projectId: {
           $toObjectId: "$projectId"
@@ -72,9 +72,9 @@ const getDetail = async(req, res) => {
     {
       $lookup: {
         from: "employee",
-        localField: "userId",
+        localField: "employeeId",
         foreignField: "_id",
-        as: "user"
+        as: "employee"
       }
     },
     {

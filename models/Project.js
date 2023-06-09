@@ -5,6 +5,14 @@ const projectSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
+  budget: {
+    type: Number,
+    require: true,
+  },
+  spending: {
+    type: Number,
+    require: true,
+  },
   date_start: {
     type: Date,
     require: true,
