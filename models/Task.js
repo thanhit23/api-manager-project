@@ -13,7 +13,7 @@ const taskSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-  userId: {
+  employeeId: {
     type: String,
     require: true,
   },

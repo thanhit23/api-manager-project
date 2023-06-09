@@ -5,7 +5,7 @@ import { filterByKeys } from '../utils/filterObject.js';
 const projectController = {
   create: async({ body }, res) => {
     try {
-      const data = filterByKeys(body, ['name', 'date_start', 'team_size']);
+      const data = filterByKeys(body, ['name', 'date_start', 'team_size', 'spending', 'budget']);
 
       const newProject = await new Project(data);
 
@@ -47,6 +47,17 @@ const projectController = {
       const result = await Project.find();
 
       return response.success(res, result)
+    } catch (error) {
+      return response.serverError(res, error);
+    }
+  },
+  getDetailProject: async({ params: { id } }, res) => {
+    try {
+      const project = await Project.findById(id)
+      
+      if (!project) return response.error(res, 'Not Found', 404);
+
+      return response.success(res, project);
     } catch (error) {
       return response.serverError(res, error);
     }
